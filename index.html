@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive STP Quiz</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 0; padding: 20px; }
+        h1, h2 { color: #333; }
+        .quiz { margin-bottom: 20px; border: 1px solid #ddd; padding: 15px; }
+        .options { display: flex; gap: 10px; margin-top: 10px; }
+        button { padding: 5px 10px; cursor: pointer; }
+        #feedback { margin-top: 10px; font-weight: bold; }
+        #score { margin-top: 20px; font-size: 18px; }
+    </style>
+</head>
+<body>
+    <h1>Interactive STP Quiz</h1>
+    <div id="quiz"></div>
+    <div id="score">Score: 0 / 0</div>
+
+    <script>
+        const questions = [
+            {
+                question: "Which switch will be the root bridge if SW1 has the lowest bridge ID?",
+                options: ["SW1", "SW2", "SW3"],
+                answer: "SW1",
+                explanation: "The switch with the lowest bridge ID becomes the root bridge."
+            },
+            {
+                question: "What is the default STP port cost for a 1Gbps link?",
+                options: ["4", "19", "100", "1000"],
+                answer: "4",
+                explanation: "In IEEE 802.1D-2004, the default port cost for 1Gbps is 4."
+            }
+        ];
+
+        let currentQuestion = 0;
+        let score = 0;
+
+        function displayQuestion() {
+            const quizContainer = document.getElementById('quiz');
+            const q = questions[currentQuestion];
+            
+            let html = `
+                <div class="quiz">
+                    <h2>Question ${currentQuestion + 1}</h2>
+                    <p>${q.question}</p>
+                    <div class="options">
+                        ${q.options.map(option => `<button onclick="checkAnswer('${option}')">${option}</button>`).join('')}
+                    </div>
+                    <div id="feedback"></div>
+                </div>
+            `;
+            
+            quizContainer.innerHTML = html;
+        }
+
+        function checkAnswer(answer) {
+            const q = questions[currentQuestion];
+            const feedbackElement = document.getElementById('feedback');
+            
+            if (answer === q.answer) {
+                feedbackElement.innerHTML = `Correct! ${q.explanation}`;
+                score++;
+            } else {
+                feedbackElement.innerHTML = `Incorrect. ${q.explanation}`;
+            }
+            
+            updateScore();
+            setTimeout(nextQuestion, 2000);
+        }
+
+        function nextQuestion() {
+            currentQuestion++;
+            if (currentQuestion < questions.length) {
+                displayQuestion();
+            } else {
+                finishQuiz();
+            }
+        }
+
+        function updateScore() {
+            document.getElementById('score').textContent = `Score: ${score} / ${currentQuestion + 1}`;
+        }
+
+        function finishQuiz() {
+            const quizContainer = document.getElementById('quiz');
+            quizContainer.innerHTML = `<h2>Quiz Complete!</h2><p>Final Score: ${score} / ${questions.length}</p>`;
+        }
+
+        displayQuestion();
+    </script>
+</body>
+</html>
