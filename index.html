@@ -276,43 +276,38 @@
 
             <!-- Links -->
             <!-- SW1 <--> SW2 (Top Fast Ethernet Link) -->
-            <line x1="200" y1="100" x2="600" y2="100" stroke="#000" stroke-width="2" />
-            <text x="400" y="90" fill="#000" font-size="12" text-anchor="middle">SW1 Fa2/0 ↔ SW2 Fa1/0</text>
-
+            <line x1="150" y1="110" x2="600" y2="110" stroke="#000" stroke-width="2" />
+            
             <!-- SW1 <--> SW2 (Bottom Fast Ethernet Link) -->
-            <line x1="200" y1="100" x2="600" y2="100" stroke="#000" stroke-width="2" stroke-dasharray="5,5" />
-            <text x="400" y="120" fill="#000" font-size="12" text-anchor="middle">SW1 Fa1/0 ↔ SW2 Fa2/0</text>
+            <line x1="150" y1="130" x2="600" y2="130" stroke="#000" stroke-width="2" stroke-dasharray="5,5" />
 
             <!-- SW1 <--> SW3 -->
-            <line x1="200" y1="100" x2="200" y2="400" stroke="#000" stroke-width="2" />
-            <text x="180" y="250" fill="#000" font-size="12" text-anchor="end">SW1 G0/1 ↔ SW3 G0/0</text>
+            <line x1="150" y1="160" x2="150" y2="400" stroke="#000" stroke-width="2" />
 
             <!-- SW3 <--> SW4 -->
-            <line x1="200" y1="400" x2="600" y2="400" stroke="#000" stroke-width="2" />
-            <text x="400" y="390" fill="#000" font-size="12" text-anchor="middle">SW3 G0/1 ↔ SW4 G0/2</text>
+            <line x1="150" y1="400" x2="600" y2="400" stroke="#000" stroke-width="2" />
 
             <!-- SW4 <--> SW2 -->
-            <line x1="600" y1="400" x2="600" y2="100" stroke="#000" stroke-width="2" />
-            <text x="620" y="250" fill="#000" font-size="12" text-anchor="start">SW4 G0/0 ↔ SW2 G0/0</text>
+            <line x1="600" y1="400" x2="600" y2="160" stroke="#000" stroke-width="2" />
 
             <!-- Port Labels Closer to Switches -->
             <!-- SW1 Ports -->
-            <text x="200" y="95" class="port-label">Fa2/0</text>
-            <text x="200" y="105" class="port-label">Fa1/0</text>
-            <text x="190" y="100" class="port-label">G0/1</text>
+            <text x="150" y="105" class="port-label" text-anchor="middle">Fa2/0</text>
+            <text x="150" y="145" class="port-label" text-anchor="middle">Fa1/0</text>
+            <text x="150" y="160" class="port-label" text-anchor="middle">G0/1</text>
 
             <!-- SW2 Ports -->
-            <text x="600" y="95" class="port-label">Fa1/0</text>
-            <text x="600" y="105" class="port-label">Fa2/0</text>
-            <text x="610" y="250" class="port-label">G0/0</text>
+            <text x="600" y="105" class="port-label" text-anchor="middle">Fa1/0</text>
+            <text x="600" y="145" class="port-label" text-anchor="middle">Fa2/0</text>
+            <text x="600" y="160" class="port-label" text-anchor="middle">G0/0</text>
 
             <!-- SW3 Ports -->
-            <text x="200" y="400" class="port-label">G0/0</text>
-            <text x="190" y="250" class="port-label">G0/1</text>
+            <text x="150" y="400" class="port-label" text-anchor="middle">G0/0</text>
+            <text x="150" y="360" class="port-label" text-anchor="middle">G0/1</text>
 
             <!-- SW4 Ports -->
-            <text x="600" y="400" class="port-label">G0/2</text>
-            <text x="610" y="250" class="port-label">G0/0</text>
+            <text x="600" y="390" class="port-label" text-anchor="middle">G0/2</text>
+            <text x="600" y="160" class="port-label" text-anchor="middle">G0/0</text>
         </svg>
     </div>
 
