@@ -16,6 +16,8 @@
             --correct-color: #4CAF50;
             --incorrect-color: #F44336;
             --link-color: #0066cc;
+            --progress-bg: #e0e0e0;
+            --progress-fill: #4CAF50;
         }
 
         [data-theme="dark"] {
@@ -28,6 +30,8 @@
             --correct-color: #81C784;
             --incorrect-color: #E57373;
             --link-color: #64B5F6;
+            --progress-bg: #333333;
+            --progress-fill: #81C784;
         }
 
         body {
@@ -145,6 +149,7 @@
             border-radius: 4px;
             cursor: pointer;
             transition: background-color 0.3s, color 0.3s;
+            text-align: left;
         }
 
         .options button:hover {
@@ -171,6 +176,29 @@
             margin-bottom: 30px;
         }
 
+        /* Progress Bar Styles */
+        .progress-container {
+            width: 100%;
+            background-color: var(--progress-bg);
+            border-radius: 25px;
+            overflow: hidden;
+            height: 25px;
+            margin: 20px 0;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background-color: var(--progress-fill);
+            transition: width 0.3s;
+        }
+
+        .progress-text {
+            text-align: center;
+            margin-top: 5px;
+            font-size: 1em;
+        }
+
         @media (max-width: 600px) {
             .options button {
                 padding: 8px;
@@ -178,23 +206,24 @@
             }
         }
 
-        /* Arrow Styles */
-        .arrow {
-            width: 0; 
-            height: 0; 
-            border-left: 5px solid transparent;
-            border-right: 5px solid transparent;
-            display: inline-block;
-            margin: 2px;
+        /* Switch Styles */
+        .switch-square {
+            width: 100px;
+            height: 100px;
+            background-color: #2196F3;
+            border: 2px solid #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-weight: bold;
+            position: relative;
         }
 
-        .arrow.left {
-            border-bottom: 10px solid var(--text-color);
-            transform: rotate(180deg);
-        }
-
-        .arrow.right {
-            border-bottom: 10px solid var(--text-color);
+        /* Port Label Styles */
+        .port-label {
+            font-size: 0.8em;
+            fill: #000;
         }
     </style>
 </head>
@@ -214,101 +243,76 @@
         <!-- SVG Network Diagram -->
         <svg viewBox="0 0 800 600">
             <!-- SW1 -->
-            <foreignObject x="50" y="50" width="150" height="100">
+            <foreignObject x="50" y="50" width="150" height="120">
                 <div xmlns="http://www.w3.org/1999/xhtml" style="text-align:center;">
                     <div class="switch-info">SW1<br>Bridge Priority: 32769<br>MAC: 0569.8456.B14D</div>
-                    <div style="position: relative; width: 100px; height: 100px; margin: 0 auto;">
-                        <div style="position: absolute; top: 25px; left: 25px; width: 50px; height: 50px; background-color: #4CAF50; border: 2px solid #000;">
-                            <div style="position: absolute; top: 5px; left: 5px;">
-                                <div class="arrow left"></div>
-                                <div class="arrow left"></div>
-                            </div>
-                            <div style="position: absolute; bottom: 5px; right: 5px;">
-                                <div class="arrow right"></div>
-                                <div class="arrow right"></div>
-                            </div>
-                        </div>
-                    </div>
+                    <div class="switch-square">SW1</div>
                 </div>
             </foreignObject>
 
             <!-- SW2 -->
-            <foreignObject x="600" y="50" width="150" height="100">
+            <foreignObject x="600" y="50" width="150" height="120">
                 <div xmlns="http://www.w3.org/1999/xhtml" style="text-align:center;">
                     <div class="switch-info">SW2<br>Bridge Priority: 36864<br>MAC: 46AE.751C.EF32</div>
-                    <div style="position: relative; width: 100px; height: 100px; margin: 0 auto;">
-                        <div style="position: absolute; top: 25px; left: 25px; width: 50px; height: 50px; background-color: #4CAF50; border: 2px solid #000;">
-                            <div style="position: absolute; top: 5px; left: 5px;">
-                                <div class="arrow left"></div>
-                                <div class="arrow left"></div>
-                            </div>
-                            <div style="position: absolute; bottom: 5px; right: 5px;">
-                                <div class="arrow right"></div>
-                                <div class="arrow right"></div>
-                            </div>
-                        </div>
-                    </div>
+                    <div class="switch-square">SW2</div>
                 </div>
             </foreignObject>
 
             <!-- SW3 -->
-            <foreignObject x="50" y="400" width="150" height="100">
+            <foreignObject x="50" y="400" width="150" height="120">
                 <div xmlns="http://www.w3.org/1999/xhtml" style="text-align:center;">
                     <div class="switch-info">SW3<br>Bridge Priority: 32769<br>MAC: B8A5.3049.D612</div>
-                    <div style="position: relative; width: 100px; height: 100px; margin: 0 auto;">
-                        <div style="position: absolute; top: 25px; left: 25px; width: 50px; height: 50px; background-color: #4CAF50; border: 2px solid #000;">
-                            <div style="position: absolute; top: 5px; left: 5px;">
-                                <div class="arrow left"></div>
-                                <div class="arrow left"></div>
-                            </div>
-                            <div style="position: absolute; bottom: 5px; right: 5px;">
-                                <div class="arrow right"></div>
-                                <div class="arrow right"></div>
-                            </div>
-                        </div>
-                    </div>
+                    <div class="switch-square">SW3</div>
                 </div>
             </foreignObject>
 
             <!-- SW4 -->
-            <foreignObject x="600" y="400" width="150" height="100">
+            <foreignObject x="600" y="400" width="150" height="120">
                 <div xmlns="http://www.w3.org/1999/xhtml" style="text-align:center;">
                     <div class="switch-info">SW4<br>Bridge Priority: 20481<br>MAC: 6742.94D2.30F7</div>
-                    <div style="position: relative; width: 100px; height: 100px; margin: 0 auto;">
-                        <div style="position: absolute; top: 25px; left: 25px; width: 50px; height: 50px; background-color: #4CAF50; border: 2px solid #000;">
-                            <div style="position: absolute; top: 5px; left: 5px;">
-                                <div class="arrow left"></div>
-                                <div class="arrow left"></div>
-                            </div>
-                            <div style="position: absolute; bottom: 5px; right: 5px;">
-                                <div class="arrow right"></div>
-                                <div class="arrow right"></div>
-                            </div>
-                        </div>
-                    </div>
+                    <div class="switch-square">SW4</div>
                 </div>
             </foreignObject>
 
             <!-- Links -->
             <!-- SW1 <--> SW2 (Top Fast Ethernet Link) -->
-            <line x1="150" y1="100" x2="650" y2="100" stroke="#000" stroke-width="2" />
+            <line x1="200" y1="100" x2="600" y2="100" stroke="#000" stroke-width="2" />
             <text x="400" y="90" fill="#000" font-size="12" text-anchor="middle">SW1 Fa2/0 ↔ SW2 Fa1/0</text>
 
             <!-- SW1 <--> SW2 (Bottom Fast Ethernet Link) -->
-            <line x1="150" y1="100" x2="650" y2="100" stroke="#000" stroke-width="2" stroke-dasharray="5,5" />
+            <line x1="200" y1="100" x2="600" y2="100" stroke="#000" stroke-width="2" stroke-dasharray="5,5" />
             <text x="400" y="120" fill="#000" font-size="12" text-anchor="middle">SW1 Fa1/0 ↔ SW2 Fa2/0</text>
 
             <!-- SW1 <--> SW3 -->
-            <line x1="150" y1="100" x2="150" y2="400" stroke="#000" stroke-width="2" />
-            <text x="120" y="250" fill="#000" font-size="12" text-anchor="end">SW1 G0/1 ↔ SW3 G0/0</text>
+            <line x1="200" y1="100" x2="200" y2="400" stroke="#000" stroke-width="2" />
+            <text x="180" y="250" fill="#000" font-size="12" text-anchor="end">SW1 G0/1 ↔ SW3 G0/0</text>
 
             <!-- SW3 <--> SW4 -->
-            <line x1="150" y1="400" x2="650" y2="400" stroke="#000" stroke-width="2" />
+            <line x1="200" y1="400" x2="600" y2="400" stroke="#000" stroke-width="2" />
             <text x="400" y="390" fill="#000" font-size="12" text-anchor="middle">SW3 G0/1 ↔ SW4 G0/2</text>
 
             <!-- SW4 <--> SW2 -->
-            <line x1="650" y1="400" x2="650" y2="100" stroke="#000" stroke-width="2" />
-            <text x="680" y="250" fill="#000" font-size="12" text-anchor="start">SW4 G0/0 ↔ SW2 G0/0</text>
+            <line x1="600" y1="400" x2="600" y2="100" stroke="#000" stroke-width="2" />
+            <text x="620" y="250" fill="#000" font-size="12" text-anchor="start">SW4 G0/0 ↔ SW2 G0/0</text>
+
+            <!-- Port Labels Closer to Switches -->
+            <!-- SW1 Ports -->
+            <text x="200" y="95" class="port-label">Fa2/0</text>
+            <text x="200" y="105" class="port-label">Fa1/0</text>
+            <text x="190" y="100" class="port-label">G0/1</text>
+
+            <!-- SW2 Ports -->
+            <text x="600" y="95" class="port-label">Fa1/0</text>
+            <text x="600" y="105" class="port-label">Fa2/0</text>
+            <text x="610" y="250" class="port-label">G0/0</text>
+
+            <!-- SW3 Ports -->
+            <text x="200" y="400" class="port-label">G0/0</text>
+            <text x="190" y="250" class="port-label">G0/1</text>
+
+            <!-- SW4 Ports -->
+            <text x="600" y="400" class="port-label">G0/2</text>
+            <text x="610" y="250" class="port-label">G0/0</text>
         </svg>
     </div>
 
@@ -317,6 +321,12 @@
     <div class="quiz-container" id="quiz-container">
         <!-- Quiz Questions will be inserted here by JavaScript -->
     </div>
+
+    <!-- Progress Bar -->
+    <div class="progress-container">
+        <div class="progress-bar" id="progress-bar"></div>
+    </div>
+    <div class="progress-text" id="progress-text">0 / 20</div>
 
     <script>
         // Dark Mode Toggle
@@ -354,8 +364,8 @@
                 id: 3,
                 question: "In the given topology, which port on SW1 will be its root port?",
                 options: ["Fa2/0", "Fa1/0", "G0/1", "None"],
-                answer: "None",
-                explanation: "Since SW4 is the root bridge, SW1's root port is the port with the least path cost to SW4, which would be G0/1 connecting to SW3."
+                answer: "G0/1",
+                explanation: "Since SW4 is the root bridge, SW1's root port is G0/1 connecting to SW3 with the least path cost."
             },
             {
                 id: 4,
@@ -382,15 +392,15 @@
                 id: 7,
                 question: "Which port on SW4 is a designated port?",
                 options: ["G0/2", "G0/0", "All ports", "None"],
-                answer: "G0/2",
-                explanation: "Port G0/2 on SW4 is designated for the link to SW3 as SW4 is the root bridge."
+                answer: "All ports",
+                explanation: "Since SW4 is the root bridge, all its ports are designated ports and are in the forwarding state."
             },
             {
                 id: 8,
                 question: "Considering the topology, which ports on SW2 will be in blocking state?",
                 options: ["Fa1/0 and Fa2/0", "G0/0 only", "Fa2/0 and G0/0", "Fa1/0 and Fa2/0"],
-                answer: "Fa2/0 and Fa1/0",
-                explanation: "Fa2/0 and Fa1/0 on SW2 are in blocking state to prevent loops, as G0/0 is the root port and Fa1/0 is designated elsewhere."
+                answer: "Fa1/0 and Fa2/0",
+                explanation: "Fa1/0 and Fa2/0 on SW2 are in blocking state to prevent loops, as G0/0 is the root port."
             },
             {
                 id: 9,
@@ -477,7 +487,7 @@
                 question: "Which port on SW4 is blocking in the initial topology?",
                 options: ["G0/0", "G0/1", "G0/2", "None"],
                 answer: "None",
-                explanation: "As SW4 is the root bridge, all its ports are designated ports and are in forwarding state."
+                explanation: "As SW4 is the root bridge, all its ports are designated ports and are in the forwarding state."
             },
             {
                 id: 20,
@@ -498,6 +508,8 @@
 
         const quizContainer = document.getElementById('quiz-container');
         const scoreElement = document.getElementById('score');
+        const progressBar = document.getElementById('progress-bar');
+        const progressText = document.getElementById('progress-text');
 
         // Function to create quiz cards
         function createQuiz() {
@@ -554,11 +566,19 @@
 
             totalAnswered++;
             updateScore();
+            updateProgress();
         }
 
         // Function to update score display
         function updateScore() {
             scoreElement.textContent = `Score: ${totalScore} / ${totalAnswered}`;
+        }
+
+        // Function to update progress bar
+        function updateProgress() {
+            const progressPercentage = (totalAnswered / questions.length) * 100;
+            progressBar.style.width = `${progressPercentage}%`;
+            progressText.textContent = `${totalAnswered} / ${questions.length}`;
         }
 
         // Initialize Quiz
