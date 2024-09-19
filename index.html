@@ -5,91 +5,483 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Interactive STP Quiz</title>
     <style>
-        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 0; padding: 20px; }
-        h1, h2 { color: #333; }
-        .quiz { margin-bottom: 20px; border: 1px solid #ddd; padding: 15px; }
-        .options { display: flex; gap: 10px; margin-top: 10px; }
-        button { padding: 5px 10px; cursor: pointer; }
-        #feedback { margin-top: 10px; font-weight: bold; }
-        #score { margin-top: 20px; font-size: 18px; }
+        /* CSS Variables for Light and Dark Modes */
+        :root {
+            --bg-color: #ffffff;
+            --text-color: #333333;
+            --header-bg: #f4f4f4;
+            --card-bg: #f9f9f9;
+            --button-bg: #e0e0e0;
+            --button-text: #333333;
+            --correct-color: #4CAF50;
+            --incorrect-color: #F44336;
+            --link-color: #0066cc;
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #121212;
+            --text-color: #e0e0e0;
+            --header-bg: #1f1f1f;
+            --card-bg: #1e1e1e;
+            --button-bg: #333333;
+            --button-text: #e0e0e0;
+            --correct-color: #81C784;
+            --incorrect-color: #E57373;
+            --link-color: #64B5F6;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0 20px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        header {
+            background-color: var(--header-bg);
+            padding: 20px;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        h1 {
+            margin: 0;
+        }
+
+        .toggle-switch {
+            margin-top: 10px;
+        }
+
+        .toggle-switch label {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .toggle-switch input {
+            display: none;
+        }
+
+        .slider {
+            width: 50px;
+            height: 25px;
+            background-color: var(--button-bg);
+            border-radius: 34px;
+            position: relative;
+            transition: background-color 0.3s;
+        }
+
+        .slider::before {
+            content: "";
+            position: absolute;
+            width: 21px;
+            height: 21px;
+            left: 2px;
+            bottom: 2px;
+            background-color: var(--button-text);
+            border-radius: 50%;
+            transition: transform 0.3s;
+        }
+
+        input:checked + .slider {
+            background-color: var(--button-bg);
+        }
+
+        input:checked + .slider::before {
+            transform: translateX(25px);
+        }
+
+        .network-diagram {
+            text-align: center;
+            margin: 30px 0;
+        }
+
+        .network-diagram svg {
+            width: 100%;
+            max-width: 600px;
+            height: auto;
+        }
+
+        .quiz-container {
+            max-width: 800px;
+            margin: 0 auto 50px;
+        }
+
+        .quiz-card {
+            background-color: var(--card-bg);
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            transition: background-color 0.3s, border 0.3s;
+        }
+
+        .quiz-card h2 {
+            margin-top: 0;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .options button {
+            background-color: var(--button-bg);
+            color: var(--button-text);
+            border: none;
+            padding: 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .options button:hover {
+            background-color: var(--link-color);
+            color: #fff;
+        }
+
+        .feedback {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        .feedback.correct {
+            color: var(--correct-color);
+        }
+
+        .feedback.incorrect {
+            color: var(--incorrect-color);
+        }
+
+        #score {
+            text-align: center;
+            font-size: 1.2em;
+            margin-bottom: 30px;
+        }
+
+        @media (max-width: 600px) {
+            .options button {
+                padding: 8px;
+                font-size: 0.9em;
+            }
+        }
     </style>
 </head>
 <body>
-    <h1>Interactive STP Quiz</h1>
-    <div id="quiz"></div>
+    <header>
+        <h1>Interactive STP Quiz</h1>
+        <div class="toggle-switch">
+            <label>
+                <input type="checkbox" id="theme-toggle">
+                <span class="slider"></span>
+            </label>
+        </div>
+    </header>
+
+    <div class="network-diagram">
+        <h2>Network Topology</h2>
+        <!-- SVG Network Diagram -->
+        <svg viewBox="0 0 400 400">
+            <!-- Switches -->
+            <circle cx="100" cy="100" r="30" stroke="black" stroke-width="2" fill="#4CAF50" />
+            <text x="100" y="105" text-anchor="middle" fill="#fff" font-size="12">SW1</text>
+
+            <circle cx="300" cy="100" r="30" stroke="black" stroke-width="2" fill="#4CAF50" />
+            <text x="300" y="105" text-anchor="middle" fill="#fff" font-size="12">SW2</text>
+
+            <circle cx="100" cy="300" r="30" stroke="black" stroke-width="2" fill="#4CAF50" />
+            <text x="100" y="305" text-anchor="middle" fill="#fff" font-size="12">SW3</text>
+
+            <circle cx="300" cy="300" r="30" stroke="black" stroke-width="2" fill="#4CAF50" />
+            <text x="300" y="305" text-anchor="middle" fill="#fff" font-size="12">SW4</text>
+
+            <!-- Links -->
+            <line x1="130" y1="100" x2="270" y2="100" stroke="#000" stroke-width="2" />
+            <line x1="130" y1="100" x2="100" y2="270" stroke="#000" stroke-width="2" />
+            <line x1="270" y1="100" x2="300" y2="270" stroke="#000" stroke-width="2" />
+            <line x1="100" y1="270" x2="300" y2="270" stroke="#000" stroke-width="2" />
+        </svg>
+    </div>
+
     <div id="score">Score: 0 / 0</div>
 
+    <div class="quiz-container" id="quiz-container">
+        <!-- Quiz Questions will be inserted here by JavaScript -->
+    </div>
+
     <script>
+        // Dark Mode Toggle
+        const themeToggle = document.getElementById('theme-toggle');
+        themeToggle.addEventListener('change', () => {
+            if (themeToggle.checked) {
+                document.documentElement.setAttribute('data-theme', 'dark');
+            } else {
+                document.documentElement.setAttribute('data-theme', 'light');
+            }
+        });
+
+        // STP Quiz Questions
         const questions = [
             {
+                id: 1,
                 question: "Which switch will be the root bridge if SW1 has the lowest bridge ID?",
-                options: ["SW1", "SW2", "SW3"],
+                options: ["SW1", "SW2", "SW3", "SW4"],
                 answer: "SW1",
                 explanation: "The switch with the lowest bridge ID becomes the root bridge."
             },
             {
+                id: 2,
                 question: "What is the default STP port cost for a 1Gbps link?",
                 options: ["4", "19", "100", "1000"],
                 answer: "4",
                 explanation: "In IEEE 802.1D-2004, the default port cost for 1Gbps is 4."
+            },
+            {
+                id: 3,
+                question: "In the provided topology, which port on SW3 would be the root port if SW1 is the root bridge?",
+                options: ["Port 1", "Port 2", "Port 3", "Port 4"],
+                answer: "Port 2",
+                explanation: "Port 2 on SW3 has the least path cost to the root bridge (SW1)."
+            },
+            {
+                id: 4,
+                question: "What constitutes a Spanning Tree Port ID?",
+                options: [
+                    "Bridge Priority + Port Priority",
+                    "Bridge ID + Port Number",
+                    "Port Priority + Port Number",
+                    "Bridge ID + Port Cost"
+                ],
+                answer: "Port Priority + Port Number",
+                explanation: "STP Port ID is calculated as Port Priority (default 128) plus Port Number."
+            },
+            {
+                id: 5,
+                question: "Which port state allows traffic to flow and participates in STP calculations?",
+                options: ["Blocking", "Listening", "Learning", "Forwarding"],
+                answer: "Forwarding",
+                explanation: "In the Forwarding state, the port can send and receive traffic and participates in STP."
+            },
+            {
+                id: 6,
+                question: "If two switches have the same bridge ID, how is the root bridge determined?",
+                options: ["Lowest MAC address", "Highest port number", "Random selection", "Based on IP address"],
+                answer: "Lowest MAC address",
+                explanation: "If bridge IDs are equal, the switch with the lowest MAC address becomes the root bridge."
+            },
+            {
+                id: 7,
+                question: "What happens to a port designated as 'Blocking' in STP?",
+                options: [
+                    "It forwards traffic and participates in STP.",
+                    "It does not forward traffic and does not participate in STP.",
+                    "It forwards traffic but does not participate in STP.",
+                    "It does not forward traffic but participates in STP."
+                ],
+                answer: "It does not forward traffic but participates in STP.",
+                explanation: "Blocking ports do not forward traffic to prevent loops but still participate in STP calculations."
+            },
+            {
+                id: 8,
+                question: "Which parameter is NOT used in determining the root port on a non-root bridge?",
+                options: ["Path Cost", "Bridge ID", "Port ID", "MAC Address"],
+                answer: "MAC Address",
+                explanation: "Path Cost, Bridge ID, and Port ID are used to determine the root port. MAC Address is part of the Bridge ID but not separately used."
+            },
+            {
+                id: 9,
+                question: "What is the purpose of the BPDU in STP?",
+                options: [
+                    "To establish VLANs",
+                    "To elect the root bridge",
+                    "To manage MAC address tables",
+                    "To route traffic between subnets"
+                ],
+                answer: "To elect the root bridge",
+                explanation: "BPDU (Bridge Protocol Data Unit) messages are used to elect the root bridge and maintain STP."
+            },
+            {
+                id: 10,
+                question: "Which port role is assigned to a port that connects to the root bridge on a non-root switch?",
+                options: ["Root Port", "Designated Port", "Alternate Port", "Backup Port"],
+                answer: "Root Port",
+                explanation: "The root port is the port on a non-root switch with the least path cost to the root bridge."
+            },
+            {
+                id: 11,
+                question: "If SW2 is not the root bridge, which port on SW2 will be its root port?",
+                options: ["Port connected to SW1", "Port connected to SW3", "Port connected to SW4", "All ports are root ports"],
+                answer: "Port connected to SW1",
+                explanation: "The root port is the port with the least path cost to the root bridge, typically the port connected directly to the root bridge."
+            },
+            {
+                id: 12,
+                question: "What is the default bridge priority in STP?",
+                options: ["0", "128", "4096", "32768"],
+                answer: "32768",
+                explanation: "The default bridge priority in STP is 32768."
+            },
+            {
+                id: 13,
+                question: "How does STP prevent network loops?",
+                options: [
+                    "By disabling all redundant paths",
+                    "By allowing only one active path between switches",
+                    "By increasing bandwidth on active paths",
+                    "By assigning static IP addresses"
+                ],
+                answer: "By allowing only one active path between switches",
+                explanation: "STP prevents loops by blocking redundant paths and allowing only one active path between switches."
+            },
+            {
+                id: 14,
+                question: "Which STP version introduces Rapid Spanning Tree Protocol (RSTP)?",
+                options: ["IEEE 802.1D", "IEEE 802.1w", "IEEE 802.1Q", "IEEE 802.1X"],
+                answer: "IEEE 802.1w",
+                explanation: "RSTP is introduced in IEEE 802.1w to provide faster convergence."
+            },
+            {
+                id: 15,
+                question: "What determines the port priority in STP?",
+                options: [
+                    "Port speed",
+                    "User configuration",
+                    "MAC address",
+                    "Number of connected devices"
+                ],
+                answer: "User configuration",
+                explanation: "Port priority can be manually configured to influence STP port roles."
+            },
+            {
+                id: 16,
+                question: "In the event of a root bridge failure, what does STP do?",
+                options: [
+                    "Shuts down the network",
+                    "Automatically re-elects a new root bridge",
+                    "Removes all blocked ports",
+                    "No action is taken"
+                ],
+                answer: "Automatically re-elects a new root bridge",
+                explanation: "STP automatically re-elects a new root bridge based on the lowest bridge ID when the current root bridge fails."
+            },
+            {
+                id: 17,
+                question: "Which command is used to view STP status on a Cisco switch?",
+                options: ["show spanning-tree", "display stp", "show stp status", "view spanning-tree"],
+                answer: "show spanning-tree",
+                explanation: "The 'show spanning-tree' command displays the STP status on a Cisco switch."
+            },
+            {
+                id: 18,
+                question: "What is the purpose of STP timers like Hello Time, Forward Delay, and Max Age?",
+                options: [
+                    "To configure VLANs",
+                    "To manage port speeds",
+                    "To control the convergence of the spanning tree",
+                    "To assign IP addresses"
+                ],
+                answer: "To control the convergence of the spanning tree",
+                explanation: "STP timers control the convergence process, ensuring proper synchronization and loop prevention."
+            },
+            {
+                id: 19,
+                question: "Which port type is a backup to the root port on a switch?",
+                options: ["Designated Port", "Alternate Port", "Blocked Port", "Root Port"],
+                answer: "Alternate Port",
+                explanation: "An Alternate Port serves as a backup to the Root Port and can take over if the Root Port fails."
+            },
+            {
+                id: 20,
+                question: "How does STP select a designated port on a network segment?",
+                options: [
+                    "The port with the highest speed",
+                    "The port connected to the switch with the lowest bridge ID",
+                    "The port with the lowest port ID",
+                    "The first port to come up"
+                ],
+                answer: "The port with the lowest port ID",
+                explanation: "STP selects the designated port on a segment based on the lowest port ID among the connected ports."
             }
         ];
 
-        let currentQuestion = 0;
-        let score = 0;
+        let totalScore = 0;
+        let totalAnswered = 0;
 
-        function displayQuestion() {
-            const quizContainer = document.getElementById('quiz');
-            const q = questions[currentQuestion];
-            
-            let html = `
-                <div class="quiz">
-                    <h2>Question ${currentQuestion + 1}</h2>
-                    <p>${q.question}</p>
-                    <div class="options">
-                        ${q.options.map(option => `<button onclick="checkAnswer('${option}')">${option}</button>`).join('')}
-                    </div>
-                    <div id="feedback"></div>
-                </div>
-            `;
-            
-            quizContainer.innerHTML = html;
+        const quizContainer = document.getElementById('quiz-container');
+        const scoreElement = document.getElementById('score');
+
+        // Function to create quiz cards
+        function createQuiz() {
+            questions.forEach((q, index) => {
+                const card = document.createElement('div');
+                card.classList.add('quiz-card');
+                card.id = `question-${q.id}`;
+
+                const questionTitle = document.createElement('h2');
+                questionTitle.textContent = `Question ${index + 1}`;
+                card.appendChild(questionTitle);
+
+                const questionText = document.createElement('p');
+                questionText.textContent = q.question;
+                card.appendChild(questionText);
+
+                const optionsDiv = document.createElement('div');
+                optionsDiv.classList.add('options');
+
+                q.options.forEach(option => {
+                    const button = document.createElement('button');
+                    button.textContent = option;
+                    button.addEventListener('click', () => checkAnswer(q.id, option));
+                    optionsDiv.appendChild(button);
+                });
+
+                card.appendChild(optionsDiv);
+
+                const feedbackDiv = document.createElement('div');
+                feedbackDiv.classList.add('feedback');
+                card.appendChild(feedbackDiv);
+
+                quizContainer.appendChild(card);
+            });
         }
 
-        function checkAnswer(answer) {
-            const q = questions[currentQuestion];
-            const feedbackElement = document.getElementById('feedback');
-            
-            if (answer === q.answer) {
-                feedbackElement.innerHTML = `Correct! ${q.explanation}`;
-                score++;
+        // Function to check answer
+        function checkAnswer(questionId, selectedOption) {
+            const question = questions.find(q => q.id === questionId);
+            const card = document.getElementById(`question-${questionId}`);
+            const feedbackDiv = card.querySelector('.feedback');
+
+            // Prevent multiple answers
+            if (feedbackDiv.textContent !== "") return;
+
+            if (selectedOption === question.answer) {
+                feedbackDiv.textContent = `Correct! ${question.explanation}`;
+                feedbackDiv.classList.add('correct');
+                totalScore++;
             } else {
-                feedbackElement.innerHTML = `Incorrect. ${q.explanation}`;
+                feedbackDiv.textContent = `Incorrect. ${question.explanation}`;
+                feedbackDiv.classList.add('incorrect');
             }
-            
+
+            totalAnswered++;
             updateScore();
-            setTimeout(nextQuestion, 2000);
         }
 
-        function nextQuestion() {
-            currentQuestion++;
-            if (currentQuestion < questions.length) {
-                displayQuestion();
-            } else {
-                finishQuiz();
-            }
-        }
-
+        // Function to update score display
         function updateScore() {
-            document.getElementById('score').textContent = `Score: ${score} / ${currentQuestion + 1}`;
+            scoreElement.textContent = `Score: ${totalScore} / ${totalAnswered}`;
         }
 
-        function finishQuiz() {
-            const quizContainer = document.getElementById('quiz');
-            quizContainer.innerHTML = `<h2>Quiz Complete!</h2><p>Final Score: ${score} / ${questions.length}</p>`;
-        }
-
-        displayQuestion();
+        // Initialize Quiz
+        createQuiz();
     </script>
 </body>
 </html>
+
