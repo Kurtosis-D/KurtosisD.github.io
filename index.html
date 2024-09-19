@@ -103,8 +103,13 @@
 
         .network-diagram svg {
             width: 100%;
-            max-width: 600px;
+            max-width: 800px;
             height: auto;
+        }
+
+        .network-diagram .switch-info {
+            font-size: 0.9em;
+            margin-bottom: 5px;
         }
 
         .quiz-container {
@@ -172,6 +177,25 @@
                 font-size: 0.9em;
             }
         }
+
+        /* Arrow Styles */
+        .arrow {
+            width: 0; 
+            height: 0; 
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            display: inline-block;
+            margin: 2px;
+        }
+
+        .arrow.left {
+            border-bottom: 10px solid var(--text-color);
+            transform: rotate(180deg);
+        }
+
+        .arrow.right {
+            border-bottom: 10px solid var(--text-color);
+        }
     </style>
 </head>
 <body>
@@ -188,25 +212,103 @@
     <div class="network-diagram">
         <h2>Network Topology</h2>
         <!-- SVG Network Diagram -->
-        <svg viewBox="0 0 400 400">
-            <!-- Switches -->
-            <circle cx="100" cy="100" r="30" stroke="black" stroke-width="2" fill="#4CAF50" />
-            <text x="100" y="105" text-anchor="middle" fill="#fff" font-size="12">SW1</text>
+        <svg viewBox="0 0 800 600">
+            <!-- SW1 -->
+            <foreignObject x="50" y="50" width="150" height="100">
+                <div xmlns="http://www.w3.org/1999/xhtml" style="text-align:center;">
+                    <div class="switch-info">SW1<br>Bridge Priority: 32769<br>MAC: 0569.8456.B14D</div>
+                    <div style="position: relative; width: 100px; height: 100px; margin: 0 auto;">
+                        <div style="position: absolute; top: 25px; left: 25px; width: 50px; height: 50px; background-color: #4CAF50; border: 2px solid #000;">
+                            <div style="position: absolute; top: 5px; left: 5px;">
+                                <div class="arrow left"></div>
+                                <div class="arrow left"></div>
+                            </div>
+                            <div style="position: absolute; bottom: 5px; right: 5px;">
+                                <div class="arrow right"></div>
+                                <div class="arrow right"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </foreignObject>
 
-            <circle cx="300" cy="100" r="30" stroke="black" stroke-width="2" fill="#4CAF50" />
-            <text x="300" y="105" text-anchor="middle" fill="#fff" font-size="12">SW2</text>
+            <!-- SW2 -->
+            <foreignObject x="600" y="50" width="150" height="100">
+                <div xmlns="http://www.w3.org/1999/xhtml" style="text-align:center;">
+                    <div class="switch-info">SW2<br>Bridge Priority: 36864<br>MAC: 46AE.751C.EF32</div>
+                    <div style="position: relative; width: 100px; height: 100px; margin: 0 auto;">
+                        <div style="position: absolute; top: 25px; left: 25px; width: 50px; height: 50px; background-color: #4CAF50; border: 2px solid #000;">
+                            <div style="position: absolute; top: 5px; left: 5px;">
+                                <div class="arrow left"></div>
+                                <div class="arrow left"></div>
+                            </div>
+                            <div style="position: absolute; bottom: 5px; right: 5px;">
+                                <div class="arrow right"></div>
+                                <div class="arrow right"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </foreignObject>
 
-            <circle cx="100" cy="300" r="30" stroke="black" stroke-width="2" fill="#4CAF50" />
-            <text x="100" y="305" text-anchor="middle" fill="#fff" font-size="12">SW3</text>
+            <!-- SW3 -->
+            <foreignObject x="50" y="400" width="150" height="100">
+                <div xmlns="http://www.w3.org/1999/xhtml" style="text-align:center;">
+                    <div class="switch-info">SW3<br>Bridge Priority: 32769<br>MAC: B8A5.3049.D612</div>
+                    <div style="position: relative; width: 100px; height: 100px; margin: 0 auto;">
+                        <div style="position: absolute; top: 25px; left: 25px; width: 50px; height: 50px; background-color: #4CAF50; border: 2px solid #000;">
+                            <div style="position: absolute; top: 5px; left: 5px;">
+                                <div class="arrow left"></div>
+                                <div class="arrow left"></div>
+                            </div>
+                            <div style="position: absolute; bottom: 5px; right: 5px;">
+                                <div class="arrow right"></div>
+                                <div class="arrow right"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </foreignObject>
 
-            <circle cx="300" cy="300" r="30" stroke="black" stroke-width="2" fill="#4CAF50" />
-            <text x="300" y="305" text-anchor="middle" fill="#fff" font-size="12">SW4</text>
+            <!-- SW4 -->
+            <foreignObject x="600" y="400" width="150" height="100">
+                <div xmlns="http://www.w3.org/1999/xhtml" style="text-align:center;">
+                    <div class="switch-info">SW4<br>Bridge Priority: 20481<br>MAC: 6742.94D2.30F7</div>
+                    <div style="position: relative; width: 100px; height: 100px; margin: 0 auto;">
+                        <div style="position: absolute; top: 25px; left: 25px; width: 50px; height: 50px; background-color: #4CAF50; border: 2px solid #000;">
+                            <div style="position: absolute; top: 5px; left: 5px;">
+                                <div class="arrow left"></div>
+                                <div class="arrow left"></div>
+                            </div>
+                            <div style="position: absolute; bottom: 5px; right: 5px;">
+                                <div class="arrow right"></div>
+                                <div class="arrow right"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </foreignObject>
 
             <!-- Links -->
-            <line x1="130" y1="100" x2="270" y2="100" stroke="#000" stroke-width="2" />
-            <line x1="130" y1="100" x2="100" y2="270" stroke="#000" stroke-width="2" />
-            <line x1="270" y1="100" x2="300" y2="270" stroke="#000" stroke-width="2" />
-            <line x1="100" y1="270" x2="300" y2="270" stroke="#000" stroke-width="2" />
+            <!-- SW1 <--> SW2 (Top Fast Ethernet Link) -->
+            <line x1="150" y1="100" x2="650" y2="100" stroke="#000" stroke-width="2" />
+            <text x="400" y="90" fill="#000" font-size="12" text-anchor="middle">SW1 Fa2/0 ↔ SW2 Fa1/0</text>
+
+            <!-- SW1 <--> SW2 (Bottom Fast Ethernet Link) -->
+            <line x1="150" y1="100" x2="650" y2="100" stroke="#000" stroke-width="2" stroke-dasharray="5,5" />
+            <text x="400" y="120" fill="#000" font-size="12" text-anchor="middle">SW1 Fa1/0 ↔ SW2 Fa2/0</text>
+
+            <!-- SW1 <--> SW3 -->
+            <line x1="150" y1="100" x2="150" y2="400" stroke="#000" stroke-width="2" />
+            <text x="120" y="250" fill="#000" font-size="12" text-anchor="end">SW1 G0/1 ↔ SW3 G0/0</text>
+
+            <!-- SW3 <--> SW4 -->
+            <line x1="150" y1="400" x2="650" y2="400" stroke="#000" stroke-width="2" />
+            <text x="400" y="390" fill="#000" font-size="12" text-anchor="middle">SW3 G0/1 ↔ SW4 G0/2</text>
+
+            <!-- SW4 <--> SW2 -->
+            <line x1="650" y1="400" x2="650" y2="100" stroke="#000" stroke-width="2" />
+            <text x="680" y="250" fill="#000" font-size="12" text-anchor="start">SW4 G0/0 ↔ SW2 G0/0</text>
         </svg>
     </div>
 
@@ -231,28 +333,14 @@
         const questions = [
             {
                 id: 1,
-                question: "Which switch will be the root bridge if SW1 has the lowest bridge ID?",
+                question: "Based on the provided topology, which switch is the root bridge?",
                 options: ["SW1", "SW2", "SW3", "SW4"],
-                answer: "SW1",
-                explanation: "The switch with the lowest bridge ID becomes the root bridge."
+                answer: "SW4",
+                explanation: "SW4 has the lowest bridge priority (20481), making it the root bridge."
             },
             {
                 id: 2,
-                question: "What is the default STP port cost for a 1Gbps link?",
-                options: ["4", "19", "100", "1000"],
-                answer: "4",
-                explanation: "In IEEE 802.1D-2004, the default port cost for 1Gbps is 4."
-            },
-            {
-                id: 3,
-                question: "In the provided topology, which port on SW3 would be the root port if SW1 is the root bridge?",
-                options: ["Port 1", "Port 2", "Port 3", "Port 4"],
-                answer: "Port 2",
-                explanation: "Port 2 on SW3 has the least path cost to the root bridge (SW1)."
-            },
-            {
-                id: 4,
-                question: "What constitutes a Spanning Tree Port ID?",
+                question: "What is the STP port ID formula?",
                 options: [
                     "Bridge Priority + Port Priority",
                     "Bridge ID + Port Number",
@@ -263,151 +351,145 @@
                 explanation: "STP Port ID is calculated as Port Priority (default 128) plus Port Number."
             },
             {
+                id: 3,
+                question: "In the given topology, which port on SW1 will be its root port?",
+                options: ["Fa2/0", "Fa1/0", "G0/1", "None"],
+                answer: "None",
+                explanation: "Since SW4 is the root bridge, SW1's root port is the port with the least path cost to SW4, which would be G0/1 connecting to SW3."
+            },
+            {
+                id: 4,
+                question: "Which port on SW2 is the root port?",
+                options: ["Fa1/0", "Fa2/0", "G0/0", "None"],
+                answer: "G0/0",
+                explanation: "Port G0/0 on SW2 provides the least path cost to the root bridge (SW4), making it the root port."
+            },
+            {
                 id: 5,
-                question: "Which port state allows traffic to flow and participates in STP calculations?",
-                options: ["Blocking", "Listening", "Learning", "Forwarding"],
-                answer: "Forwarding",
-                explanation: "In the Forwarding state, the port can send and receive traffic and participates in STP."
+                question: "Which port on SW3 is the designated port for the link between SW3 and SW4?",
+                options: ["G0/1", "G0/0", "G0/2", "None"],
+                answer: "G0/1",
+                explanation: "Port G0/1 on SW3 is designated for the link to SW4 based on path cost and bridge priority."
             },
             {
                 id: 6,
-                question: "If two switches have the same bridge ID, how is the root bridge determined?",
-                options: ["Lowest MAC address", "Highest port number", "Random selection", "Based on IP address"],
-                answer: "Lowest MAC address",
-                explanation: "If bridge IDs are equal, the switch with the lowest MAC address becomes the root bridge."
+                question: "What will be the designated port on SW1 for the link connecting to SW2 (Fa2/0)?",
+                options: ["Fa2/0", "Fa1/0", "G0/1", "None"],
+                answer: "Fa2/0",
+                explanation: "Fa2/0 on SW1 is designated for the link to SW2 as it provides the best path to the root bridge."
             },
             {
                 id: 7,
-                question: "What happens to a port designated as 'Blocking' in STP?",
-                options: [
-                    "It forwards traffic and participates in STP.",
-                    "It does not forward traffic and does not participate in STP.",
-                    "It forwards traffic but does not participate in STP.",
-                    "It does not forward traffic but participates in STP."
-                ],
-                answer: "It does not forward traffic but participates in STP.",
-                explanation: "Blocking ports do not forward traffic to prevent loops but still participate in STP calculations."
+                question: "Which port on SW4 is a designated port?",
+                options: ["G0/2", "G0/0", "All ports", "None"],
+                answer: "G0/2",
+                explanation: "Port G0/2 on SW4 is designated for the link to SW3 as SW4 is the root bridge."
             },
             {
                 id: 8,
-                question: "Which parameter is NOT used in determining the root port on a non-root bridge?",
-                options: ["Path Cost", "Bridge ID", "Port ID", "MAC Address"],
-                answer: "MAC Address",
-                explanation: "Path Cost, Bridge ID, and Port ID are used to determine the root port. MAC Address is part of the Bridge ID but not separately used."
+                question: "Considering the topology, which ports on SW2 will be in blocking state?",
+                options: ["Fa1/0 and Fa2/0", "G0/0 only", "Fa2/0 and G0/0", "Fa1/0 and Fa2/0"],
+                answer: "Fa2/0 and Fa1/0",
+                explanation: "Fa2/0 and Fa1/0 on SW2 are in blocking state to prevent loops, as G0/0 is the root port and Fa1/0 is designated elsewhere."
             },
             {
                 id: 9,
-                question: "What is the purpose of the BPDU in STP?",
-                options: [
-                    "To establish VLANs",
-                    "To elect the root bridge",
-                    "To manage MAC address tables",
-                    "To route traffic between subnets"
-                ],
-                answer: "To elect the root bridge",
-                explanation: "BPDU (Bridge Protocol Data Unit) messages are used to elect the root bridge and maintain STP."
+                question: "What is the bridge ID of SW3?",
+                options: ["32769. B8A5.3049.D612", "32769. 0569.8456.B14D", "20481. 6742.94D2.30F7", "36864. 46AE.751C.EF32"],
+                answer: "32769. B8A5.3049.D612",
+                explanation: "Bridge ID is composed of bridge priority and MAC address. SW3 has a bridge priority of 32769 and MAC address B8A5.3049.D612."
             },
             {
                 id: 10,
-                question: "Which port role is assigned to a port that connects to the root bridge on a non-root switch?",
-                options: ["Root Port", "Designated Port", "Alternate Port", "Backup Port"],
-                answer: "Root Port",
-                explanation: "The root port is the port on a non-root switch with the least path cost to the root bridge."
+                question: "Which port on SW4 is the root port?",
+                options: ["G0/0", "G0/2", "All ports", "None"],
+                answer: "None",
+                explanation: "SW4 is the root bridge, so it does not have a root port."
             },
             {
                 id: 11,
-                question: "If SW2 is not the root bridge, which port on SW2 will be its root port?",
-                options: ["Port connected to SW1", "Port connected to SW3", "Port connected to SW4", "All ports are root ports"],
-                answer: "Port connected to SW1",
-                explanation: "The root port is the port with the least path cost to the root bridge, typically the port connected directly to the root bridge."
+                question: "Which switch has the highest bridge priority?",
+                options: ["SW1", "SW2", "SW3", "SW4"],
+                answer: "SW2",
+                explanation: "SW2 has the highest bridge priority of 36864."
             },
             {
                 id: 12,
+                question: "If SW1 and SW3 have the same bridge priority and identical path costs to the root, how is the root port determined?",
+                options: [
+                    "By the lowest MAC address",
+                    "By the highest port number",
+                    "Random selection",
+                    "Based on IP address"
+                ],
+                answer: "By the lowest MAC address",
+                explanation: "When bridge priorities and path costs are equal, the switch with the lowest MAC address wins."
+            },
+            {
+                id: 13,
                 question: "What is the default bridge priority in STP?",
-                options: ["0", "128", "4096", "32768"],
+                options: ["0", "128", "32768", "4096"],
                 answer: "32768",
                 explanation: "The default bridge priority in STP is 32768."
             },
             {
-                id: 13,
-                question: "How does STP prevent network loops?",
-                options: [
-                    "By disabling all redundant paths",
-                    "By allowing only one active path between switches",
-                    "By increasing bandwidth on active paths",
-                    "By assigning static IP addresses"
-                ],
-                answer: "By allowing only one active path between switches",
-                explanation: "STP prevents loops by blocking redundant paths and allowing only one active path between switches."
-            },
-            {
                 id: 14,
-                question: "Which STP version introduces Rapid Spanning Tree Protocol (RSTP)?",
-                options: ["IEEE 802.1D", "IEEE 802.1w", "IEEE 802.1Q", "IEEE 802.1X"],
-                answer: "IEEE 802.1w",
-                explanation: "RSTP is introduced in IEEE 802.1w to provide faster convergence."
+                question: "Which port on SW3 serves as the root port?",
+                options: ["G0/0", "G0/1", "G0/2", "None"],
+                answer: "G0/0",
+                explanation: "Port G0/0 on SW3 connects directly to SW1, which has a higher bridge priority, making it the root port."
             },
             {
                 id: 15,
-                question: "What determines the port priority in STP?",
-                options: [
-                    "Port speed",
-                    "User configuration",
-                    "MAC address",
-                    "Number of connected devices"
-                ],
-                answer: "User configuration",
-                explanation: "Port priority can be manually configured to influence STP port roles."
+                question: "Which port on SW1 is the designated port for the link connecting to SW3?",
+                options: ["Fa2/0", "Fa1/0", "G0/1", "None"],
+                answer: "G0/1",
+                explanation: "Port G0/1 on SW1 is designated for the link to SW3 based on path cost to the root bridge."
             },
             {
                 id: 16,
-                question: "In the event of a root bridge failure, what does STP do?",
+                question: "What determines whether a port is designated or non-designated?",
                 options: [
-                    "Shuts down the network",
-                    "Automatically re-elects a new root bridge",
-                    "Removes all blocked ports",
-                    "No action is taken"
+                    "Port speed",
+                    "Path cost to the root bridge",
+                    "User configuration",
+                    "Number of connected devices"
                 ],
-                answer: "Automatically re-elects a new root bridge",
-                explanation: "STP automatically re-elects a new root bridge based on the lowest bridge ID when the current root bridge fails."
+                answer: "Path cost to the root bridge",
+                explanation: "A port is designated based on the least path cost to the root bridge, ensuring optimal paths are active."
             },
             {
                 id: 17,
-                question: "Which command is used to view STP status on a Cisco switch?",
-                options: ["show spanning-tree", "display stp", "show stp status", "view spanning-tree"],
-                answer: "show spanning-tree",
-                explanation: "The 'show spanning-tree' command displays the STP status on a Cisco switch."
+                question: "Which port on SW2 is the designated port for the link connecting to SW4?",
+                options: ["G0/0", "Fa1/0", "Fa2/0", "None"],
+                answer: "G0/0",
+                explanation: "Port G0/0 on SW2 is designated for the link to SW4 as it provides the best path to the root bridge."
             },
             {
                 id: 18,
-                question: "What is the purpose of STP timers like Hello Time, Forward Delay, and Max Age?",
-                options: [
-                    "To configure VLANs",
-                    "To manage port speeds",
-                    "To control the convergence of the spanning tree",
-                    "To assign IP addresses"
-                ],
-                answer: "To control the convergence of the spanning tree",
-                explanation: "STP timers control the convergence process, ensuring proper synchronization and loop prevention."
+                question: "If SW4 fails, which switch becomes the new root bridge?",
+                options: ["SW1", "SW2", "SW3", "Depends on the remaining bridge IDs"],
+                answer: "SW1",
+                explanation: "With SW4 failed, SW1 and SW3 have the next lowest bridge priority (32769). SW1 has a lower MAC address than SW3, making it the new root bridge."
             },
             {
                 id: 19,
-                question: "Which port type is a backup to the root port on a switch?",
-                options: ["Designated Port", "Alternate Port", "Blocked Port", "Root Port"],
-                answer: "Alternate Port",
-                explanation: "An Alternate Port serves as a backup to the Root Port and can take over if the Root Port fails."
+                question: "Which port on SW4 is blocking in the initial topology?",
+                options: ["G0/0", "G0/1", "G0/2", "None"],
+                answer: "None",
+                explanation: "As SW4 is the root bridge, all its ports are designated ports and are in forwarding state."
             },
             {
                 id: 20,
-                question: "How does STP select a designated port on a network segment?",
+                question: "What is the purpose of the designated port in STP?",
                 options: [
-                    "The port with the highest speed",
-                    "The port connected to the switch with the lowest bridge ID",
-                    "The port with the lowest port ID",
-                    "The first port to come up"
+                    "To forward traffic and participate in STP",
+                    "To block traffic and not participate in STP",
+                    "To backup the root port",
+                    "To serve as an alternate path"
                 ],
-                answer: "The port with the lowest port ID",
-                explanation: "STP selects the designated port on a segment based on the lowest port ID among the connected ports."
+                answer: "To forward traffic and participate in STP",
+                explanation: "Designated ports are responsible for forwarding traffic on their respective network segments and participate in STP calculations."
             }
         ];
 
@@ -484,4 +566,3 @@
     </script>
 </body>
 </html>
-
