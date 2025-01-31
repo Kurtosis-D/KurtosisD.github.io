@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STP Quiz</title>
+    <style>
+        :root {
+            --bg-color: #ffffff;
+            --text-color: #333333;
+            --correct-color: #4CAF50;
+            --incorrect-color: #f44336;
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #333333;
+            --text-color: #ffffff;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        #theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 10px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            background-color: var(--text-color);
+            color: var(--bg-color);
+        }
+
+        .topology {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .question {
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 1px solid var(--text-color);
+            border-radius: 5px;
+        }
+
+        .options {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .option {
+            margin: 10px 0;
+            padding: 10px;
+            cursor: pointer;
+            border: 1px solid var(--text-color);
+            border-radius: 3px;
+        }
+
+        .option:hover {
+            background-color: rgba(128, 128, 128, 0.2);
+        }
+
+        .correct {
+            background-color: var(--correct-color);
+            color: white;
+        }
+
+        .incorrect {
+            background-color: var(--incorrect-color);
+            color: white;
+        }
+
+        .score {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            padding: 10px;
+            background-color: var(--text-color);
+            color: var(--bg-color);
+            border-radius: 5px;
+        }
+
+        .result-icon {
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="score">
+        Correct: <span id="correct-count">0</span> / 
+        Wrong: <span id="wrong-count">0</span>
+    </div>
+    
+    <button id="theme-toggle">Toggle Dark Mode</button>
+
+    <div class="topology">
+        <h2>STP Network Topology</h2>
+        <svg width="600" height="300" viewBox="0 0 600 300">
+            <!-- Switch A (Root Bridge) -->
+            <rect x="250" y="50" width="100" height="50" fill="#4CAF50" stroke="black" />
+            <text x="300" y="80" text-anchor="middle" fill="white">Switch A</text>
+            <text x="300" y="95" text-anchor="middle" fill="white">Priority: 4096</text>
+            
+            <!-- Switch B -->
+            <rect x="50" y="150" width="100" height="50" fill="#2196F3" stroke="black" />
+            <text x="100" y="180" text-anchor="middle" fill="white">Switch B</text>
+            <text x="100" y="195" text-anchor="middle" fill="white">Priority: 8192</text>
+            
+            <!-- Switch C -->
+            <rect x="250" y="150" width="100" height="50" fill="#2196F3" stroke="black" />
+            <text x="300" y="180" text-anchor="middle" fill="white">Switch C</text>
+            <text x="300" y="195" text-anchor="middle" fill="white">Priority: 16384</text>
+            
+            <!-- Switch D -->
+            <rect x="450" y="150" width="100" height="50" fill="#2196F3" stroke="black" />
+            <text x="500" y="180" text-anchor="middle" fill="white">Switch D</text>
+            <text x="500" y="195" text-anchor="middle" fill="white">Priority: 32768</text>
+            
+            <!-- Links -->
+            <line x1="300" y1="100" x2="100" y2="150" stroke="black" stroke-width="2"/>
+            <line x1="300" y1="100" x2="300" y2="150" stroke="black" stroke-width="2"/>
+            <line x1="300" y1="100" x2="500" y2="150" stroke="black" stroke-width="2"/>
+            <line x1="100" y1="175" x2="300" y2="175" stroke="black" stroke-width="2"/>
+            <line x1="300" y1="175" x2="500" y2="175" stroke="black" stroke-width="2"/>
+            
+            <!-- Link costs -->
+            <text x="175" y="140" fill="var(--text-color)">Cost: 4</text>
+            <text x="300" y="140" fill="var(--text-color)">Cost: 4</text>
+            <text x="425" y="140" fill="var(--text-color)">Cost: 4</text>
+            <text x="200" y="195" fill="var(--text-color)">Cost: 4</text>
+            <text x="400" y="195" fill="var(--text-color)">Cost: 4</text>
+        </svg>
+    </div>
+
+    <div id="quiz-container"></div>
+
+    <script>
+        const questions = [
+            {
+                question: "In the topology shown above, which switch will be elected as the root bridge?",
+                options: [
+                    "Switch A",
+                    "Switch B",
+                    "Switch C",
+                    "Switch D"
+                ],
+                correct: 0,
+                explanation: "Switch A has the lowest priority value (4096) among all switches, making it the root bridge."
+            },
+            {
+                question: "In the topology shown above, what will be the root path cost from Switch D to the root bridge through Switch C?",
+                options: [
+                    "4",
+                    "8",
+                    "12",
+                    "16"
+                ],
+                correct: 1,
+                explanation: "The path from Switch D to root bridge (Switch A) through Switch C involves two links, each with cost 4, so total cost is 8."
+            },
+            {
+                question: "In the topology shown above, which port on Switch B will likely be put into blocking state?",
+                options: [
+                    "The port connected to Switch A",
+                    "The port connected to Switch C",
+                    "Both ports will be forwarding",
+                    "Both ports will be blocking"
+                ],
+                correct: 1,
+                explanation: "The port connected to Switch C will be blocked as Switch B has a better path to root through its direct connection to Switch A."
+            },
+            {
+                question: "What is the default port cost for a 1 Gbps link in STP?",
+                options: [
+                    "4",
+                    "19",
+                    "20",
+                    "2"
+                ],
+                correct: 1,
+                explanation: "The default port cost for a 1 Gbps link in STP is 19."
+            },
+            {
+                question: "Which of the following bridge IDs would be elected as the root bridge?",
+                options: [
+                    "Priority: 32768, MAC: 00:00:00:00:00:01",
+                    "Priority: 32768, MAC: 00:00:00:00:00:02",
+                    "Priority: 16384, MAC: 00:00:00:00:00:03",
+                    "Priority: 32768, MAC: 00:00:00:00:00:00"
+                ],
+                correct: 2,
+                explanation: "The switch with priority 16384 has the lowest bridge ID (priority is primary factor)."
+            },
+            {
+                question: "What is the purpose of the Forward Delay timer in STP?",
+                options: [
+                    "Time to wait before sending BPDU",
+                    "Time spent in listening and learning states",
+                    "Time to wait before declaring root bridge dead",
+                    "Time between BPDU transmissions"
+                ],
+                correct: 1,
+                explanation: "Forward Delay timer determines how long a port stays in listening and learning states."
+            },
+            {
+                question: "What is the default Hello Time in STP?",
+                options: [
+                    "1 second",
+                    "2 seconds",
+                    "15 seconds",
+                    "20 seconds"
+                ],
+                correct: 1,
+                explanation: "The default Hello Time in STP is 2 seconds."
+            },
+            {
+                question: "Which STP port state allows learning MAC addresses but not forwarding frames?",
+                options: [
+                    "Blocking",
+                    "Listening",
+                    "Learning",
+                    "Forwarding"
+                ],
+                correct: 2,
+                explanation: "The Learning state allows MAC address learning but not frame forwarding."
+            },
+            {
+                question: "What information is used to determine the root port on a non-root bridge?",
+                options: [
+                    "Only the path cost to root bridge",
+                    "Path cost and bridge ID",
+                    "Path cost, bridge ID, and port ID",
+                    "Only the bridge ID"
+                ],
+                correct: 2,
+                explanation: "Root port selection uses path cost to root, sender bridge ID, and port ID."
+            },
+            {
+                question: "What happens to the MAC address table when a port transitions to blocking state?",
+                options: [
+                    "Nothing changes",
+                    "Entries are maintained but aged normally",
+                    "All entries are immediately cleared",
+                    "Only entries for that port are cleared"
+                ],
+                correct: 3,
+                explanation: "When a port moves to blocking state, MAC addresses learned on that port are cleared."
+            },
+            {
+                question: "What is the Max Age timer used for in STP?",
+                options: [
+                    "Maximum age of MAC address entries",
+                    "Time to wait before electing new root",
+                    "Maximum time to store BPDU information",
+                    "Time between topology changes"
+                ],
+                correct: 2,
+                explanation: "Max Age timer determines how long BPDU information is stored before being aged out."
+            },
+            {
+                question: "Which of these events triggers a topology change in STP?",
+                options: [
+                    "A port moving to blocking state",
+                    "A port moving to forwarding state",
+                    "Receipt of a superior BPDU",
+                    "Expiration of Hello timer"
+                ],
+                correct: 1,
+                explanation: "A port moving to forwarding state triggers a topology change."
+            },
+            {
+                question: "What is the default Max Age timer value in STP?",
+                options: [
+                    "10 seconds",
+                    "15 seconds",
+                    "20 seconds",
+                    "30 seconds"
+                ],
+                correct: 2,
+                explanation: "The default Max Age timer value in STP is 20 seconds."
+            },
+            {
+                question: "Which STP port role is responsible for connecting to the root bridge?",
+                options: [
+                    "Designated port",
+                    "Root port",
+                    "Alternate port",
+                    "Backup port"
+                ],
+                correct: 1,
+                explanation: "The root port is responsible for connecting to the root bridge."
+            },
+            {
+                question: "What happens when a switch receives an inferior BPDU on a designated port?",
+                options: [
+                    "It immediately blocks the port",
+                    "It discards the BPDU and continues normal operation",
+                    "It forwards the BPDU to other switches",
+                    "It initiates a new root bridge election"
+                ],
+                correct: 1,
+                explanation: "When receiving an inferior BPDU on a designated port, the switch discards it."
+            },
+            {
+                question: "Which of these is NOT a valid STP port state?",
+                options: [
+                    "Listening",
+                    "Learning",
+                    "Waiting",
+                    "Blocking"
+                ],
+                correct: 2,
+                explanation: "Waiting is not a valid STP port state. The valid states are disabled, blocking, listening, learning, and forwarding."
+            },
+            {
+                question: "What is the purpose of the listening state in STP?",
+                options: [
+                    "To forward user traffic",
+                    "To learn MAC addresses",
+                    "To prevent loops while processing BPDUs",
+                    "To age out MAC addresses"
+                ],
+                correct: 2,
+                explanation: "The listening state processes BPDUs to prevent loops before transitioning to learning state."
+            },
+            {
+                question: "How often are TCN BPDUs sent by a switch detecting a topology change?",
+                options: [
+                    "Every hello time until acknowledged",
+                    "Once only",
+                    "Every max age timer",
+                    "Every forward delay timer"
+                ],
+                correct: 0,
+                explanation: "TCN BPDUs are sent every hello time until acknowledged by the root bridge."
+            },
+            {
+                question: "What is the primary difference between an alternate port and a backup port?",
+                options: [
+                    "Alternate ports have higher path costs",
+                    "Backup ports connect to different switches",
+                    "Alternate ports provide alternate paths to root bridge",
+                    "There is no difference"
+                ],
+                correct: 2,
+                explanation: "Alternate ports provide alternate paths to the root bridge, while backup ports provide redundant connections to the same segment."
+            },
+            {
+                question: "Which statement about bridge priority is correct?",
+                options: [
+                    "It must be a multiple of 4096",
+                    "It can be any value between 0 and 65535",
+                    "Lower values are preferred",
+                    "Higher values are preferred"
+                ],
+                correct: 0,
+                explanation: "Bridge priority must be a multiple of 4096 (increment value) in modern STP implementations."
+            }
+        ];
+
+        let correctCount = 0;
+        let wrongCount = 0;
+
+        function createQuiz() {
+            const quizContainer = document.getElementById('quiz-container');
+            
+            questions.forEach((q, index) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'question';
+                questionDiv.innerHTML = `
+                    <p><strong>Question ${index + 1}:</strong> ${q.question}</p>
+                    <ul class="options">
+                        ${q.options.map((option, i) => `
+                            <li class="option" data-question="${index}" data-option="${i}">
+                                ${option}
+                                <span class="result-icon"></span>
+                            </li>
+                        `).join('')}
+                    </ul>
+                    <p class="explanation" style="display: none;">${q.explanation}</p>
+                        
